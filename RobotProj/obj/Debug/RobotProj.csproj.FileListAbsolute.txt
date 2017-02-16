@@ -1,0 +1,14 @@
+G:\2017-项目\Proj\RobotSolution\RobotProj\bin\Debug\RobotProj.exe.config
+G:\2017-项目\Proj\RobotSolution\RobotProj\obj\Debug\RobotProj.MainWindow.resources
+G:\2017-项目\Proj\RobotSolution\RobotProj\obj\Debug\RobotProj.Properties.Resources.resources
+G:\2017-项目\Proj\RobotSolution\RobotProj\obj\Debug\RobotProj.csproj.GenerateResource.Cache
+G:\2017-项目\Proj\RobotSolution\RobotProj\bin\Debug\RobotProj.exe
+G:\2017-项目\Proj\RobotSolution\RobotProj\bin\Debug\RobotProj.pdb
+G:\2017-项目\Proj\RobotSolution\RobotProj\bin\Debug\ICSharpCode.TextEditor.dll
+G:\2017-项目\Proj\RobotSolution\RobotProj\bin\Debug\IrisSkin2.dll
+G:\2017-项目\Proj\RobotSolution\RobotProj\bin\Debug\WeifenLuo.WinFormsUI.Docking.dll
+G:\2017-项目\Proj\RobotSolution\RobotProj\obj\Debug\RobotProj.exe
+G:\2017-项目\Proj\RobotSolution\RobotProj\obj\Debug\RobotProj.pdb
+G:\2017-项目\Proj\RobotSolution\RobotProj\obj\Debug\RobotProj.CompList.resources
+G:\2017-项目\Proj\RobotSolution\RobotProj\obj\Debug\RobotProj.CodeWindow.resources
+G:\2017-项目\Proj\RobotSolution\RobotProj\obj\Debug\RobotProj.DrawTable.resources
