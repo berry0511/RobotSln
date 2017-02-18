@@ -83,36 +83,74 @@ namespace RobotProj
             }
         }
 
-        public void initDrawPen(Point p, PictureBox box)
+        public void initDrawPen(Point p, object sender, PictureBox box)
         {
+            basePic baseBox = sender as basePic;
+            if (null != drawingLine) return;
+            foreach (Line l in lines)
+            {
+                if (box == l.startBox)
+                {
+                    lines.Remove(l);
+                    this.Invalidate();
+                    break;
+                }
+            }
             drawingLine = new Line(p);
+            drawingLine.startBasePic = baseBox;
             drawingLine.startBox = box;
             lines.Add(drawingLine);
             bDrawLine = true;
         }
 
-        public void endDrawing(Point p, PictureBox box)
+        public void endDrawing(Point p, object sender, PictureBox box)
         {
+            basePic baseBox = sender as basePic;
             if (drawingLine == null) return;
+            if (baseBox == drawingLine.startBasePic) return;
+            foreach (Line l in lines)
+            {
+                if (box == l.EndBox)
+                {
+                    lines.Remove(l);
+                    this.Invalidate();
+                    break;
+                }
+            }
             drawingLine.EndPoint = p;
             drawingLine.EndBox = box;
+            drawingLine.endBasePic = baseBox;
             drawingLine = null;
         }
 
-        public void onPicturboxMove(Point p, PictureBox box)
+        public void onPicturboxMove(Point p, object sender)
         {
+            basePic basepic = sender as basePic;
+            List<PictureBox> inputboxes = basepic.getInputBox();
+            List<PictureBox> outputboxes = basepic.getOutputBox();
             foreach (Line l in lines)
             {
-                if (l.startBox == box)
+                foreach (PictureBox start in outputboxes)
                 {
-                    l.StartPoint.X += p.X;
-                    l.StartPoint.Y += p.Y;
+                    if (l.startBox == start)
+                    {
+                        l.StartPoint.X += p.X;
+                        l.StartPoint.Y += p.Y;
+                        l.StartPoint.X = l.StartPoint.X > 0 ? l.StartPoint.X : 0;
+                        l.StartPoint.Y = l.StartPoint.Y > 0 ? l.StartPoint.Y : 0;
+                        break;
+                    }
                 }
-
-                if (l.EndBox == box)
+                foreach (PictureBox end in inputboxes)
                 {
-                    l.EndPoint.X += p.X;
-                    l.EndPoint.Y += p.Y;
+                    if (l.EndBox == end)
+                    {
+                        l.EndPoint.X += p.X;
+                        l.EndPoint.Y += p.Y;
+                        l.EndPoint.X = l.EndPoint.X > 0 ? l.EndPoint.X : 0;
+                        l.EndPoint.Y = l.EndPoint.Y > 0 ? l.EndPoint.Y : 0;
+                        break;
+                    }
                 }
             }
             this.Invalidate();

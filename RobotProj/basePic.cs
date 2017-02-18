@@ -22,9 +22,13 @@ namespace RobotProj
             EndPoint = startPoint;
             startBox = null;
             EndBox = null;
+            startBasePic = null;
+            endBasePic = null;
         }
         public Point StartPoint = Point.Empty;
         public Point EndPoint = Point.Empty;
+        public basePic startBasePic;
+        public basePic endBasePic;
         public PictureBox startBox;
         public PictureBox EndBox;
     }
@@ -36,8 +40,8 @@ namespace RobotProj
             MoveFlag = false;
             MovePoint = new Point(0, 0);
             basePicture = new PictureBox();
-            inputBox = new List<PictureBox>();
-            outputBox = new List<PictureBox>();
+            inputBoxes = new List<PictureBox>();
+            outputBoxes = new List<PictureBox>();
             inOriginImage = Image.FromFile(@".\export\Image\ConnectImage\In.png");
             inSmallImage = inOriginImage.GetThumbnailImage(10, 10, null, new IntPtr());
             outOriginImage = Image.FromFile(@".\export\Image\ConnectImage\Out.png");
@@ -83,7 +87,7 @@ namespace RobotProj
             this.Controls.Add(input);
             input.BringToFront();
             input.Show();
-            inputBox.Add(input);
+            inputBoxes.Add(input);
         }
 
         public void createOutputPic(object sender, Point p)
@@ -102,7 +106,7 @@ namespace RobotProj
             this.Controls.Add(output);
             output.BringToFront();
             output.Show();
-            outputBox.Add(output);
+            outputBoxes.Add(output);
         }
 
         public void baseMouseMove(object sender, MouseEventArgs e)
@@ -112,7 +116,7 @@ namespace RobotProj
             if (MoveFlag)
             {
                 Point p = new Point(e.X - MovePoint.X, e.Y - MovePoint.Y);
-                form.onPicturboxMove(p, this.basePicture);
+                form.onPicturboxMove(p, (object)this);
                 this.Left += Convert.ToInt16(p.X);
                 this.Top += Convert.ToInt16(p.Y);
             }
@@ -171,18 +175,10 @@ namespace RobotProj
         {
             PictureBox input = sender as PictureBox;
             DrawTable form = this.Parent as DrawTable;
-            foreach (PictureBox box in inputBox)
-            {
-                if (box == input)
-                {
-                    Point p = new Point();
-                    p.X = this.Location.X + ((Point)box.Tag).X;
-                    p.Y = this.Location.Y + ((Point)box.Tag).Y + 5;
-                    form.endDrawing(p, this.basePicture);
-                    form.Invalidate();
-                    break;
-                }
-            }
+            Point p = new Point();
+            p.X = this.Location.X + ((Point)input.Tag).X;
+            p.Y = this.Location.Y + ((Point)input.Tag).Y + 5;
+            form.endDrawing(p, (object)this, input);
         }
 
         public void inputMouseUp(object sender, MouseEventArgs e)
@@ -219,17 +215,10 @@ namespace RobotProj
         {
             PictureBox output = sender as PictureBox;
             DrawTable form = this.Parent as DrawTable;
-            foreach (PictureBox box in outputBox)
-            {
-                if (box == output)
-                {
-                    Point p = new Point();
-                    p.X = this.Location.X + ((Point)box.Tag).X + 10;
-                    p.Y = this.Location.Y + ((Point)box.Tag).Y + 5;
-                    form.initDrawPen(p, this.basePicture);
-                    break;
-                }
-            }
+            Point p = new Point();
+            p.X = this.Location.X + ((Point)output.Tag).X + 10;
+            p.Y = this.Location.Y + ((Point)output.Tag).Y + 5;
+            form.initDrawPen(p, (object)this, output);
         }
 
         public void outputMouseUp(object sender, MouseEventArgs e)
@@ -243,11 +232,21 @@ namespace RobotProj
             //drawingLine = null;
         }
 
+        public List<PictureBox> getInputBox()
+        {
+            return inputBoxes;
+        }
+
+        public List<PictureBox> getOutputBox()
+        {
+            return outputBoxes;
+        }
+
         private bool MoveFlag { get; set; }
         private Point MovePoint { get; set; }
         private PictureBox basePicture;
-        private List<PictureBox> inputBox;
-        private List<PictureBox> outputBox;
+        private List<PictureBox> inputBoxes;
+        private List<PictureBox> outputBoxes;
         private Image baseImage;
         private Image baseLightImage;
         private Image inOriginImage;
